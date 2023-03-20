@@ -1,0 +1,22 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "org.example.grpc";
+package org.example.grpc;
+
+message Point {
+  string cityName = 1;
+  double latitude = 3;
+  double longitude = 2;
+}
+
+message DistanceCalculatorRequest {
+  repeated Point points = 1;
+}
+
+message DistanceCalculatorResponse {
+  double distance = 1;
+}
+
+service DistanceCalculatorService {
+  rpc distance(DistanceCalculatorRequest) returns (DistanceCalculatorResponse);
+}
