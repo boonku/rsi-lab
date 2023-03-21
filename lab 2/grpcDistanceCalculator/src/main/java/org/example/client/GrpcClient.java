@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GrpcClient {
-    private final static String HOST_ADDRESS = "localhost";
+    private final static String HOST_ADDRESS = "10.182.253.154";
     private final static int PORT = 9000;
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -93,8 +93,8 @@ public class GrpcClient {
                     points.get(0).cityName(), points.get(1).cityName(), response.getDistance());
         } else if (points.size() == 3) {
             System.out.printf("Distance between %s and %s through %s is: %.4fkm\n",
-                    points.get(0).cityName(), points.get(1).cityName(),
-                    points.get(2).cityName(), response.getDistance());
+                    points.get(0).cityName(), points.get(2).cityName(),
+                    points.get(1).cityName(), response.getDistance());
         }
     }
 }
