@@ -28,5 +28,23 @@ namespace WcfService
 
         [OperationContract]
         double HMultiply(double val1, double val2);
+
+        [OperationContract]
+        int iAdd(int val1, int val2);
+
+        [OperationContract]
+        int iSub(int val1, int val2);
+
+        [OperationContract]
+        int iMul(int val1, int val2);
+
+        [OperationContract]
+        int iDiv(int val1, int val2);
+
+        [OperationContract]
+        int iMod(int val1, int val2);
+
+        [OperationContract]
+        int CalculateAmountOfPrimesInRange(int start, int end);
     }
 }

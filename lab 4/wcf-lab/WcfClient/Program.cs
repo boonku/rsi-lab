@@ -49,6 +49,13 @@ namespace WcfClient
             result = asyncResult.Result;
             Console.WriteLine("2...HMultiplyAsync Result = " + result);
 
+            Console.WriteLine("2...calling CallCalculateAmountOfPrimesInRange");
+            Task<int> count = CallCalculateAmountOfPrimesInRange(myClient2, 1, 100);
+            Thread.Sleep(100);
+
+            result = count.Result;
+            Console.WriteLine("2...CallCalculateAmountOfPrimesInRange Result = " + result);
+
             Console.WriteLine("...press <ENTER> to STOP client...");
             Console.WriteLine();
             Console.ReadLine();
@@ -62,6 +69,15 @@ namespace WcfClient
             Console.WriteLine("2...... called callHMultiplyAsync");
             double reply = await client.HMultiplyAsync(val1, val2);
             Console.WriteLine("2...... finished callHMultiplyAsync");
+
+            return reply;
+        }
+
+        private static async Task<int> CallCalculateAmountOfPrimesInRange(CalculatorClient client, int start, int end)
+        {
+            Console.WriteLine("2...... called CalculateAmountOfPrimesInRangeAsync");
+            int reply = await client.CalculateAmountOfPrimesInRangeAsync(start, end);
+            Console.WriteLine("2...... finished CalculateAmountOfPrimesInRangeAsync");
 
             return reply;
         }

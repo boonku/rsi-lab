@@ -90,4 +90,94 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="iAdd">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="val1" type="xs:int" />
+        <xs:element minOccurs="0" name="val2" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iAddResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="iAddResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iSub">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="val1" type="xs:int" />
+        <xs:element minOccurs="0" name="val2" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iSubResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="iSubResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iMul">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="val1" type="xs:int" />
+        <xs:element minOccurs="0" name="val2" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iMulResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="iMulResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iDiv">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="val1" type="xs:int" />
+        <xs:element minOccurs="0" name="val2" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iDivResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="iDivResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iMod">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="val1" type="xs:int" />
+        <xs:element minOccurs="0" name="val2" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iModResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="iModResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CalculateAmountOfPrimesInRange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="start" type="xs:int" />
+        <xs:element minOccurs="0" name="end" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CalculateAmountOfPrimesInRangeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CalculateAmountOfPrimesInRangeResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
