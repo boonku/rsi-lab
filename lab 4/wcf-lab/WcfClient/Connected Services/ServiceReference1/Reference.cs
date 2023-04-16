@@ -86,6 +86,12 @@ namespace WcfClient.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/CalculateAmountOfPrimesInRange", ReplyAction="http://tempuri.org/ICalculator/CalculateAmountOfPrimesInRangeResponse")]
         System.Threading.Tasks.Task<int> CalculateAmountOfPrimesInRangeAsync(int start, int end);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/BiggestPrimeInRange", ReplyAction="http://tempuri.org/ICalculator/BiggestPrimeInRangeResponse")]
+        int BiggestPrimeInRange(int start, int end);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/BiggestPrimeInRange", ReplyAction="http://tempuri.org/ICalculator/BiggestPrimeInRangeResponse")]
+        System.Threading.Tasks.Task<int> BiggestPrimeInRangeAsync(int start, int end);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -209,6 +215,14 @@ namespace WcfClient.ServiceReference1 {
         
         public System.Threading.Tasks.Task<int> CalculateAmountOfPrimesInRangeAsync(int start, int end) {
             return base.Channel.CalculateAmountOfPrimesInRangeAsync(start, end);
+        }
+        
+        public int BiggestPrimeInRange(int start, int end) {
+            return base.Channel.BiggestPrimeInRange(start, end);
+        }
+        
+        public System.Threading.Tasks.Task<int> BiggestPrimeInRangeAsync(int start, int end) {
+            return base.Channel.BiggestPrimeInRangeAsync(start, end);
         }
     }
 }

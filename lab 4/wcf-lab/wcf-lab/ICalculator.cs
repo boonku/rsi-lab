@@ -46,5 +46,8 @@ namespace WcfService
 
         [OperationContract]
         int CalculateAmountOfPrimesInRange(int start, int end);
+
+        [OperationContract]
+        int BiggestPrimeInRange(int start, int end);
     }
 }

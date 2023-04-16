@@ -92,15 +92,14 @@ namespace WcfService
 
         public int CalculateAmountOfPrimesInRange(int start, int end)
         {
+            if (end < start) return 0;
             bool[] primes = new bool[end + 1];
 
-            // Initialize all values in the array to true
             for (int i = 2; i <= end; i++)
             {
                 primes[i] = true;
             }
 
-            // Set multiples of primes to false
             for (int p = 2; p * p <= end; p++)
             {
                 if (primes[p])
@@ -112,7 +111,6 @@ namespace WcfService
                 }
             }
 
-            // Count the number of primes in the given range
             int count = 0;
             for (int i = start; i <= end; i++)
             {
@@ -124,6 +122,41 @@ namespace WcfService
 
             PrintCall("CalculateAmountOfPrimesInRange", start, end, count);
             return count;
+        }
+
+        public int BiggestPrimeInRange(int start, int end)
+        {
+            if (end < start) return 0;
+            bool[] primes = new bool[end + 1];
+            for (int i = 2; i <= end; i++)
+            {
+                primes[i] = true;
+            }
+
+            for (int i = 2; i <= Math.Sqrt(end); i++)
+            {
+                if (primes[i])
+                {
+                    for (int j = i * i; j <= end; j += i)
+                    {
+                        primes[j] = false;
+                    }
+                }
+            }
+
+            int biggestPrime = 0;
+            for (int i = end; i >= start; i--)
+            {
+                if (primes[i])
+                {
+                    biggestPrime = i;
+                    break;
+                }
+            }
+
+            PrintCall("BiggestPrimeInRange", start, end, biggestPrime);
+            return biggestPrime;
+
         }
 
         private void PrintCall(string method, double val1, double val2, double result)
