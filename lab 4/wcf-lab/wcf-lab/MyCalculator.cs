@@ -57,37 +57,84 @@ namespace WcfService
 
         public int iAdd(int val1, int val2)
         {
-            int result = val1 + val2;
-            PrintCall("iAdd", val1, val2, result);
-            return result;
+            checked
+            {
+                try
+                {
+                    int result = val1 + val2;
+                    PrintCall("iAdd", val1, val2, result);
+                    return result;
+                }
+                catch (OverflowException e)
+                {
+                    throw e;
+                }
+            }
         }
 
         public int iSub(int val1, int val2)
         {
-            int result = val1 - val2;
-            PrintCall("iSub", val1, val2, result);
-            return result;
+            checked
+            {
+                try
+                {
+                    int result = val1 - val2;
+                    PrintCall("iSub", val1, val2, result);
+                    return result;
+                } catch (OverflowException e)
+                {
+                    throw e;
+                }
+            }
         }
 
         public int iMul(int val1, int val2)
         {
-            int result = val1 * val2;
-            PrintCall("iMul", val1, val2, result);
-            return result;
+            checked
+            {
+                try
+                {
+                    int result = (val1 * val2);
+                    PrintCall("iMul", val1, val2, result);
+                    return result;
+                }
+                catch (OverflowException e)
+                {
+                    throw e;
+                }
+            }
         }
 
         public int iDiv(int val1, int val2)
         {
-            int result = val1 / val2;
-            PrintCall("iDiv", val1, val2, result);
-            return result;
+            checked
+            {
+                try
+                {
+                    int result = val1 / val2;
+                    PrintCall("iDiv", val1, val2, result);
+                    return result;
+                } catch(OverflowException e)
+                {
+                    throw e;
+                }
+            }
         }
 
         public int iMod(int val1, int val2)
         {
-            int result = val1 % val2;
-            PrintCall("iMod", val1, val2, result);
-            return result;
+            checked
+            {
+                try
+                {
+                    int result = val1 % val2;
+                    PrintCall("iMod", val1, val2, result);
+                    return result;
+                } catch (OverflowException e)
+                {
+                    throw e;
+                }
+            }
         }
 
         public int CalculateAmountOfPrimesInRange(int start, int end)

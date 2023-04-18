@@ -109,41 +109,49 @@ namespace WcfClient
         private static void PerformAction(int option, int val1, int val2, CalculatorClient client)
         {
             int result;
-            switch (option)
+            try
             {
-                case 1:
-                    Console.WriteLine("...calling iAdd");
-                    result = client.iAdd(val1, val2);
-                    break;
-                case 2:
-                    Console.WriteLine("...calling iSub");
-                    result = client.iSub(val1, val2);
-                    break;
-                case 3:
-                    Console.WriteLine("...calling iMul");
-                    result = client.iMul(val1, val2);
-                    break;
-                case 4:
-                    Console.WriteLine("...calling iDiv");
-                    result = client.iDiv(val1, val2);
-                    break;
-                case 5:
-                    Console.WriteLine("...calling iMod");
-                    result = client.iMod(val1, val2);
-                    break;
-                case 6:
-                    Console.WriteLine("...calling CountPrimesInRange");
-                    result = CallCalculateAmountOfPrimesInRange(client, val1, val2).Result;
-                    break;
-                case 7:
-                    Console.WriteLine("...calling BiggestPrimeInRange");
-                    result = CallBiggestPrimeInRange(client, val1, val2).Result;
-                    break;
-                default:
-                    return;
+                switch (option)
+                {
+                    case 1:
+                        Console.WriteLine("...calling iAdd");
+                        result = client.iAdd(val1, val2);
+                        break;
+                    case 2:
+                        Console.WriteLine("...calling iSub");
+                        result = client.iSub(val1, val2);
+                        break;
+                    case 3:
+                        Console.WriteLine("...calling iMul");
+                        result = client.iMul(val1, val2);
+                        break;
+                    case 4:
+                        Console.WriteLine("...calling iDiv");
+                        result = client.iDiv(val1, val2);
+                        break;
+                    case 5:
+                        Console.WriteLine("...calling iMod");
+                        result = client.iMod(val1, val2);
+                        break;
+                    case 6:
+                        Console.WriteLine("...calling CountPrimesInRange");
+                        result = CallCalculateAmountOfPrimesInRange(client, val1, val2).Result;
+                        break;
+                    case 7:
+                        Console.WriteLine("...calling BiggestPrimeInRange");
+                        result = CallBiggestPrimeInRange(client, val1, val2).Result;
+                        break;
+                    default:
+                        return;
+                }
+                Console.WriteLine("Result = " + result);
+                Console.WriteLine();
+            } catch (FaultException e)
+            {
+                Console.WriteLine("Overflow exception");
+                Console.WriteLine();
             }
-            Console.WriteLine("Result = " + result);
-            Console.WriteLine();
+            
         }
 
         private static async Task<double> CallHMultiply(CalculatorClient client, double val1, double val2)
