@@ -13,9 +13,9 @@ public class Menu {
 
     public void printMenu() {
         System.out.println("==== SELECT OPTION ===== ");
-        System.out.println("1. Get all persons");
+        System.out.println("1. Get all people");
         System.out.println("2. Get person by id");
-        System.out.println("3. Get persons count");
+        System.out.println("3. Get people count");
         System.out.println("4. Add new person");
         System.out.println("5. Update person");
         System.out.println("6. Delete person");

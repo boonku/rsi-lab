@@ -7,7 +7,7 @@ import com.example.restservice.exceptions.PersonNotFoundException;
 import java.util.List;
 
 public interface PersonRepository {
-    List<Person> getAllPersons();
+    List<Person> getAllPeople();
 
     Person getPerson(int id) throws PersonNotFoundException;
 

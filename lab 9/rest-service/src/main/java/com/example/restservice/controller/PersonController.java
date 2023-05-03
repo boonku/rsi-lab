@@ -27,11 +27,11 @@ public class PersonController {
     @GetMapping()
     public CollectionModel<EntityModel<Person>> getPersons() {
         log.info("GET /persons");
-        List<EntityModel<Person>> persons = personRepository.getAllPersons()
+        List<EntityModel<Person>> people = personRepository.getAllPeople()
                 .stream()
                 .map(PersonController::mapPersonToEntityModel)
                 .toList();
-        return CollectionModel.of(persons, linkTo(methodOn(PersonController.class).getPersons()).withSelfRel());
+        return CollectionModel.of(people, linkTo(methodOn(PersonController.class).getPersons()).withSelfRel());
     }
 
     @GetMapping("/{id}")

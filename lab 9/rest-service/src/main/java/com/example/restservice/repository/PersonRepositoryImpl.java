@@ -11,23 +11,23 @@ import java.util.List;
 @Repository
 public class PersonRepositoryImpl implements PersonRepository {
 
-    private final List<Person> persons;
+    private final List<Person> people;
 
     public PersonRepositoryImpl() {
-        persons = new ArrayList<>();
-        persons.add(new Person(1, "John", 20, "john@mail.com"));
-        persons.add(new Person(2, "Jane", 25, "jane@mail.com"));
-        persons.add(new Person(3, "Max", 30, "max@mail.com"));
+        people = new ArrayList<>();
+        people.add(new Person(1, "John", 20, "john@mail.com"));
+        people.add(new Person(2, "Jane", 25, "jane@mail.com"));
+        people.add(new Person(3, "Max", 30, "max@mail.com"));
     }
 
     @Override
-    public List<Person> getAllPersons() {
-        return persons;
+    public List<Person> getAllPeople() {
+        return people;
     }
 
     @Override
     public Person getPerson(int id) throws PersonNotFoundException {
-        return persons.stream()
+        return people.stream()
                 .filter(person -> person.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new PersonNotFoundException(id));
@@ -35,7 +35,7 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public Person updatePerson(int id, Person person) throws PersonNotFoundException {
-        return persons.stream()
+        return people.stream()
                 .filter(p -> p.getId() == id)
                 .findFirst()
                 .map(p -> {
@@ -50,22 +50,22 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public boolean deletePerson(int id) throws PersonNotFoundException {
-        return persons.stream()
+        return people.stream()
                 .filter(person -> person.getId() == id)
                 .findFirst()
-                .map(persons::remove)
+                .map(people::remove)
                 .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override
     public Person addPerson(Person person) throws PersonExistsException {
         checkIfPersonAlreadyExists(person);
-        persons.add(person);
+        people.add(person);
         return person;
     }
 
     private void checkIfPersonAlreadyExists(Person person) {
-        persons.stream()
+        people.stream()
                 .filter(p -> p.getId() == person.getId())
                 .findFirst()
                 .ifPresent(p -> {

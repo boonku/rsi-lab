@@ -1,15 +1,19 @@
 package org.example;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.example.Menu.MENU_EXIT;
 
 public class Client {
-    private final static String BASE_URL = "http://localhost:8080/api/v1/persons";
+    private static final String BASE_URL = "http://localhost:8080/api/v1/persons";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private final OkHttpClient httpClient;
@@ -17,16 +21,22 @@ public class Client {
     private final ObjectMapper mapper;
 
     public Client() {
-        this.httpClient = new OkHttpClient();
+        this.httpClient = new OkHttpClient.Builder()
+                .callTimeout(5, TimeUnit.SECONDS)
+                .build();
         this.menu = new Menu();
         mapper = new ObjectMapper();
     }
 
-    public void start() throws IOException {
+    public void start() {
         menu.printMenu();
         int option = menu.readOption();
         while (option != MENU_EXIT) {
-            performAction(option);
+            try {
+                performAction(option);
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
             System.out.println();
             menu.printMenu();
             option = menu.readOption();
@@ -36,17 +46,16 @@ public class Client {
 
     private void performAction(int option) throws IOException {
         switch (option) {
-            case 1 -> listPersons();
+            case 1 -> listPeople();
             case 2 -> listPersonById();
-            case 3 -> listPersonsCount();
+            case 3 -> listPeopleCount();
             case 4 -> addNewPerson();
             case 5 -> updatePerson();
             case 6 -> deletePerson();
         }
     }
 
-    private void listPersons() throws IOException {
-        System.out.println("listing persons");
+    private void listPeople() throws IOException {
         Request request = new Request.Builder()
                 .url(BASE_URL)
                 .build();
@@ -54,15 +63,18 @@ public class Client {
         Call call = httpClient.newCall(request);
         Response response = call.execute();
         if (response.isSuccessful()) {
-            String body = response.body().string();
-            System.out.println(body);
+            JsonNode jsonNode = mapper.readTree(response.body().string())
+                    .get("_embedded")
+                    .get("personList");
+            List<Person> people = mapper.readValue(jsonNode.toString(), new TypeReference<List<Person>>() {
+            });
+            people.forEach(System.out::println);
         } else {
             printErrorResponse(response);
         }
     }
 
     private void listPersonById() throws IOException {
-        System.out.println("listing person by id");
         int id = menu.readPersonID();
         Request request = new Request.Builder()
                 .url(BASE_URL + "/" + id)
@@ -70,22 +82,31 @@ public class Client {
 
         Call call = httpClient.newCall(request);
         Response response = call.execute();
+        printPersonResponse(response);
+    }
+
+    private void listPeopleCount() throws IOException {
+        Request request = new Request.Builder()
+                .url(BASE_URL)
+                .build();
+
+        Call call = httpClient.newCall(request);
+        Response response = call.execute();
         if (response.isSuccessful()) {
-            Person person = mapper.readValue(response.body().string(), Person.class);
-            System.out.println(person);
+            JsonNode jsonNode = mapper.readTree(response.body().string())
+                    .get("_embedded")
+                    .get("personList");
+            List<Person> people = mapper.readValue(jsonNode.toString(), new TypeReference<List<Person>>() {
+            });
+            System.out.println("People count: " + people.size());
         } else {
             printErrorResponse(response);
         }
     }
 
-    private void listPersonsCount() {
-        System.out.println("listing person count");
-    }
-
     private void addNewPerson() throws IOException {
-        System.out.println("adding new person");
         Person person = menu.readPerson();
-        RequestBody requestBody = getRequestBody(person);
+        RequestBody requestBody = createRequestBody(person);
         Request request = new Request.Builder()
                 .url(BASE_URL)
                 .post(requestBody)
@@ -93,14 +114,14 @@ public class Client {
 
         Call call = httpClient.newCall(request);
         Response response = call.execute();
-        System.out.println(response.body().string());
+        printPersonResponse(response);
     }
 
     private void updatePerson() throws IOException {
         int id = menu.readPersonID();
-        System.out.println("Input person details");
+        System.out.println("Enter person details");
         Person person = menu.readPerson();
-        RequestBody requestBody = getRequestBody(person);
+        RequestBody requestBody = createRequestBody(person);
         Request request = new Request.Builder()
                 .url(BASE_URL + "/" + id)
                 .put(requestBody)
@@ -108,11 +129,7 @@ public class Client {
 
         Call call = httpClient.newCall(request);
         Response response = call.execute();
-        if (response.isSuccessful()) {
-            System.out.println(response.body().string());
-        } else {
-            printErrorResponse(response);
-        }
+        printPersonResponse(response);
     }
 
     private void deletePerson() throws IOException {
@@ -131,17 +148,31 @@ public class Client {
         }
     }
 
-    private <T> RequestBody getRequestBody(T object) {
+    private <T> RequestBody createRequestBody(T object) {
         try {
-            return RequestBody.create(JSON, mapper.writeValueAsString(object));
+            return RequestBody.create(mapper.writeValueAsString(object), JSON);
         } catch (JsonProcessingException e) {
-            System.out.println("error while processing json");
             throw new RuntimeException(e);
         }
     }
 
+    private void printPersonResponse(Response response) throws IOException {
+        if (response.isSuccessful()) {
+            Person person = null;
+            if (response.body() != null) {
+                person = mapper.readValue(response.body().string(), Person.class);
+            }
+            System.out.println(person);
+        } else {
+            printErrorResponse(response);
+        }
+    }
+
     private void printErrorResponse(Response response) throws IOException {
-        ErrorResponse error = mapper.readValue(response.body().string(), ErrorResponse.class);
+        ErrorResponse error = null;
+        if (response.body() != null) {
+            error = mapper.readValue(response.body().string(), ErrorResponse.class);
+        }
         System.out.println(error);
     }
 }
